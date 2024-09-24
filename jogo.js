@@ -1,89 +1,129 @@
-//provavelmente falta coisa
+let botao, quebraLinha, jogada = 1;
+let tabuleiro = new Array(3);
+const tabuleiroDiv = document.querySelector('.tabuleiro');
 
-let button, quebraLinha, jogada = 1, vencedor = 0
-let tabuleiro = new Array(3)
-for(let i = 0; i < tabuleiro.length; i++){
-    tabuleiro[i] = new Array(3)
+for (let i = 0; i < tabuleiro.length; i++) {
+    tabuleiro[i] = new Array(3);
+    let linhaDiv = document.createElement('div');
+    linhaDiv.classList.add('linha');
+   
+    for (let j = 0; j < tabuleiro.length; j++) {
+        botao = document.createElement('button');
+        botao.setAttribute('type', 'button');
+        botao.setAttribute('id', 'bt' + i + "" + j);
+        botao.setAttribute('class', 'btJogo' + i);
+        botao.setAttribute('onclick', 'marca' + i + "" + j + "()");
+        botao.append(document.createTextNode(""));
+        linhaDiv.append(botao);
+    }
+    tabuleiroDiv.append(linhaDiv);
 }
 
-for(let i = 0; i < tabuleiro.length; i++){
-    quebraLinha = document.createElement('br')
-    document.body.append(quebraLinha)
-    for(let j = 0; j < tabuleiro.length; j++){
-       button = document.createElement('button')
-       button.setAttribute('type', 'button')
-       button.setAttribute('id', 'bt' + i + "" + j)
-       button.setAttribute('class', 'btJogo' + i)
-       button.setAttribute('onclick', "marca(" + i + "," + j + ")")
-       button.append(document.createTextNode(""))
-       document.body.append(button)
+function marca00(){
+    marcarCasa("bt00")
+}
+
+function marca01(){
+    marcarCasa("bt01")
+}
+
+function marca02(){
+    marcarCasa("bt02")
+}
+
+function marca10(){
+    marcarCasa("bt10")
+}
+
+function marca11(){
+    marcarCasa("bt11")
+}
+
+function marca12(){
+    marcarCasa("bt12")
+}
+
+function marca20(){
+    marcarCasa("bt20")
+}
+function marca21(){
+    marcarCasa("bt21")
+}
+
+function marca22(){
+    marcarCasa("bt22")
+}
+
+function marcarCasa(nomeBotao){
+    if(jogada % 2 == 0){
+        document.getElementById(nomeBotao).innerText = "O"
+        document.getElementById(nomeBotao).style.color = "black"
+    }else{
+        document.getElementById(nomeBotao).innerText = "X"
+        document.getElementById(nomeBotao).style.color = "red"
     }
-    let h1 = document.createElement('h1')
-    h1.setAttribute('id', 'resultado')
-    document.body.append(h1)
-
-    function marca(linha, coluna){
-        marcaCasa("bt" + linha + '' + coluna)
+    document.getElementById(nomeBotao).disabled = true
+    jogada++
+    if(jogada >= 5){
+        encerraJogo()
     }
-    function marcaCasa(nomeBotao){
-        jogada++
-        if(jogada % 2 == 0){
-            document.getElementById(nomeBotao).innerText = "X"
-            document.getElementById(nomeBotao).style.color = "black"
-        }else{
-            document.getElementById(nomeBotao).innerText = "O"
-            document.getElementById(nomeBotao).style.coloe = "blue"
-        }
-        document.getElementById(nomeBotao).disable = true
-        let line = nomeBotao.charAt(2)
-        let column = nomeBotao.charAt(3)
+}
 
-        jogada > 5 ? encerrarJogo(line, column, 0, 0 ): ""
+function encerraJogo(){
+    if(document.getElementById("bt00").innerText == document.
+    getElementById("bt01").innerText && document.getElementById
+    ("bt01").innerText == document.getElementById("bt02").
+    innerText && document.getElementById("bt00").innerText != ""){
+        alert("Jogo finalizado!!\nVencedor: " + document.
+        getElementById("bt00").innerText)
     }
-
-
-
-    function travarCasas(){
-        for(let i = 0; i < tabuleiro.length;i++){
-            for(let j = 0; j < tabuleiro[i].length;j++){
-                document.getElementById("bt" + i + "" + j).disable = true
-            }
-        }
+    if(document.getElementById("bt10").innerText == document.
+    getElementById("bt11").innerText && document.getElementById
+    ("bt11").innerText == document.getElementById("bt12").
+    innerText && document.getElementById("bt10").innerText != ""){
+        alert("Jogo finalizado!!\nVencedor: " + document.
+        getElementById("bt10").innerText)
     }
-
-    function encerraJogo(linha, coluna, linhaManual, colunaManual){ // Verifica se houve um vencedor
-        verificaLinhasXColunas(linha, linha, linha, colunaManual, colunaManual+1, colunaManual+2)
-        verificaLinhasXColunas(linhaManual, linhaManual+1, linhaManual+2, coluna, coluna, coluna)
-        verificaDiagonais("bt00", "bt11", "bt22")
-        verificaDiagonais("bt02", "bt11", "bt20")
+    if(document.getElementById("bt20").innerText == document.
+    getElementById("bt21").innerText && document.getElementById
+    ("bt21").innerText == document.getElementById("bt22").
+    innerText && document.getElementById("bt20").innerText != ""){
+        alert("Jogo finalizado!!\nVencedor: " + document.
+        getElementById("bt20").innerText)
     }
-    
-    function verificaLinhasXColunas(posL1, posL2, posL3, posC1, posC2, posC3){
-        if(document.getElementById("bt" + posL1 + "" + posC1).innerText == document.getElementById("bt" +posL2 + "" + posC2).innerText
-            && document.getElementById("bt" +posL2 + "" + posC2).innerText == document.getElementById("bt" +posL3 + "" + posC3).innerText
-            && document.getElementById("bt" +posL1 + "" + posC1).innerText != ""){
-            document.getElementById("resultado").innerHTML = "Jogo finalizado! Vencedor: "
-            + document.getElementById("bt" +posL1 + "" + posC1).innerText
-            travarCasas()
-            for(let cont in tabuleiro){ //Pinta a linha ou coluna vencedora de vermelho
-                (posC1 == 0 &&  posC2 == 1 &&  posC3 == 2) ? document.getElementById("bt" + posL1 + "" + cont).style.color = "red" :
-                document.getElementById("bt" + cont + "" + posC1).style.color = "red";
-                vencedor++
-            }
-        }}
-    
-    function verificaDiagonais(pos1, pos2, pos3){
-        let diagonal = [document.getElementById(pos1).innerText, document.getElementById(pos2).innerText, document.getElementById(pos3).innerText]
-        if((diagonal[0] == "X" && diagonal[1] == "X" && diagonal[2] == "X")
-            || (diagonal[0] == "O" && diagonal[1] == "O" && diagonal[2] == "O")){
-            document.getElementById("resultado").innerHTML = "Jogo finalizado!\nVencedor: " + document.getElementById("bt00").innerText
-            travarCasas()
-            let contRegressivo = tabuleiro.length - 1
-            for(let cont in tabuleiro){
-                (pos3 == "bt22") ? document.getElementById("bt" + cont + "" + cont).style.color = "red" :
-                document.getElementById("bt" + cont + "" + contRegressivo--).style.color = "red" //Pinta a diagonal principal ou secundária vencedora de vermelho
-                vencedor++
-            }
-        }
+    if(document.getElementById("bt00").innerText == document.
+    getElementById("bt10").innerText && document.getElementById
+    ("bt10").innerText == document.getElementById("bt20").
+    innerText && document.getElementById("bt00").innerText != ""){
+        alert("Jogo finalizado!!\nVencedor: " + document.
+        getElementById("bt00").innerText)
+    }
+    if(document.getElementById("bt01").innerText == document.
+    getElementById("bt11").innerText && document.getElementById
+    ("bt11").innerText == document.getElementById("bt21").
+    innerText && document.getElementById("bt01").innerText != ""){
+        alert("Jogo finalizado!!\nVencedor: " + document.
+        getElementById("bt01").innerText)
+    }
+    if(document.getElementById("bt02").innerText == document.
+    getElementById("bt12").innerText && document.getElementById
+    ("bt12").innerText == document.getElementById("bt22").
+    innerText && document.getElementById("bt02").innerText != ""){
+        alert("Jogo finalizado!!\nVencedor: " + document.
+        getElementById("bt02").innerText)
+    }
+    if(document.getElementById("bt00").innerText == document.
+    getElementById("bt11").innerText && document.getElementById
+    ("bt11").innerText == document.getElementById("bt22").
+    innerText && document.getElementById("bt00").innerText != ""){
+        alert("Jogo finalizado!!\nVencedor: " + document.
+        getElementById("bt00").innerText)
+    }
+    if(document.getElementById("bt02").innerText == document.
+    getElementById("bt11").innerText && document.getElementById
+    ("bt11").innerText == document.getElementById("bt20").
+    innerText && document.getElementById("bt02").innerText != ""){
+        alert("Jogo finalizado!!\nVencedor: " + document.
+        getElementById("bt02").innerText)
     }
 }
