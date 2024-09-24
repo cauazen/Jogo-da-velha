@@ -1,24 +1,24 @@
 button{
-    border-width: 6px;
+    border: width 6px;
     width: 100px;
     height: 100px;
     line-height: 100px;
-    background-color: aliceblue;
+    background-color: white;
     font-size: 100px;
-    border-top: 0;
     border-left: 0;
+    border-top: 0;
     vertical-align: top;
 }
-button:hover{
-    background-color: aquamarine;
+
+.btjogo0, .btjogo1{
+    padding-top: 0;
+    margin-top: 0;
+
 }
-.btJogo0, .btJogo1{
-padding-top: 0;
-margin-top: 0;
-}
-.btJogo2{
+.btjogo2{
     border-bottom: 0;
 }
+
 #bt02, #bt12, #bt22{
     border-right: 0;
 }
